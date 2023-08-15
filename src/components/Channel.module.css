@@ -1,0 +1,70 @@
+.channelCard {
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 50px;
+  }
+  .cardContent{
+    display: flex;
+    gap: 10px;
+  }
+  
+  .cardMedia {
+    border-radius: 50%;
+    height: clamp(10vh, 120px, 15vh);
+    aspect-ratio: 1;
+    margin-bottom: 2px;
+    border: 1px solid red;
+    
+  }
+  
+  .channelTitle {
+    font-size: 1.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkIon {
+    font-size: 14px;
+    color: gray;
+    margin-left: 5px;
+  }
+  
+  .channelDescription {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: gray;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    height: auto;
+    border-right: 1px solid #3d3d3d;
+    padding: 0 2px;
+  }
+  
+  .backgroundImage {
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    z-index: 10;
+  }
+  
+  .copyRight {
+    margin-top: 1.5rem;
+    color: #fff;
+  }
+  .mainContent {
+    overflow-y: auto;
+    height: 90vh;
+    flex: 2;
+  }
+  
+  
