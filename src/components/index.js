@@ -10,3 +10,4 @@ export { default as SearchFeed } from './SearchFeed';
 export { default as Videos } from '../Pages/Videos';
 export { default as Sidebar } from './Sidebar';
 export {default as Roots} from '../Pages/Roots';
+export {default as Comments} from './VideoComments';

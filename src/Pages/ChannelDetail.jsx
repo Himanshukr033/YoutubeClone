@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import { Videos, ChannelCard, Sidebar } from "../components";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../utils/fetchFromAPI";
 import styles from '../components/Channel.module.css';
 
 const ChannelDetail = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [channelDetail, setChannelDetail] = useState();
   const [videos, setVideos] = useState(null);
 
@@ -36,9 +36,6 @@ const ChannelDetail = () => {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
-        <Typography className={styles.copyRight} variant="body2">
-          Copyright © 2023 Himanshu Kumar
-        </Typography>
       </Box>
       <Box className={styles.mainContent}>
         <Box>

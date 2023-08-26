@@ -1,26 +1,50 @@
 import { useState, useEffect } from "react";
 import { Typography, Box, Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 import { fetchFromAPI } from "../utils/fetchFromAPI";
 import { Videos, Sidebar } from "./";
 
 const SearchFeed = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [videos, setVideos] = useState(null);
   const { searchTerm } = useParams();
+ 
+  
 
   useEffect(() => {
-    fetchFromAPI(`search?part=snippet&q=${searchTerm}`)
-      .then((data) => setVideos(data.items))
-  }, [searchTerm]);
-
-    useEffect(() => {
     setVideos(null);
+    const category = selectedCategory || searchTerm; 
 
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
-      .then((data) => setVideos(data.items))
-    }, [selectedCategory]);
+    const fetchData = async () => {
+      try {
+        const data = await fetchFromAPI(`search?part=snippet&q=${category}`);
+        setVideos(data.items);
+      } catch (error) {
+        console.error("An error occurred while fetching data.", error);
+      } finally {
+      }
+    };
+
+    fetchData();
+  }, [selectedCategory, searchTerm]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setSelectedCategory();
+        const data = await fetchFromAPI(`search?part=snippet&q=${searchTerm}&regionCode=IN`);
+        setVideos(data.items);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [searchTerm]);
+  
+  
+  
 
   return (
     <Stack direction={ "row" }>
@@ -35,13 +59,6 @@ const SearchFeed = () => {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
-        <Typography
-          className="copyright"
-          variant="body2"
-          sx={{ mt: 1.5, color: "#fff" }}
-        >
-          Copyright © 2023 Himanshu Kumar
-        </Typography>
       </Box>
       <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
         <Typography
@@ -52,7 +69,7 @@ const SearchFeed = () => {
           ml={{ sm: "100px" }}
         >
           Search Results for{" "}
-          <span style={{ color: "#FC1503" }}>{searchTerm}</span> videos
+          <span style={{ color: "#FC1503" }}>{selectedCategory ? selectedCategory : searchTerm}</span> videos
         </Typography> 
         <Videos videos={videos} /> 
       </Box>

@@ -4,7 +4,7 @@ import ReactPlayer from "react-player";
 import { Typography, Box, Stack } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import { Videos, Loader } from "./";
+import { Videos, Loader, Comments } from "./";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 import styles from "./Video.module.css";
@@ -15,14 +15,22 @@ const VideoDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetchFromAPI(`videos?part=snippet,statistics&id=${id}`)
-      .then((data) => setVideoDetail(data.items[0]))
-
-    fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`)
-      .then((data) => setVideos(data.items))
+    const fetchVideoData = async () => {
+      try {
+        const videoData = await fetchFromAPI(`videos?part=snippet,statistics&id=${id}`);
+        setVideoDetail(videoData.items[0]);
+  
+        const relatedVideosData = await fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`);
+        setVideos(relatedVideosData.items);
+        console.log(relatedVideosData);
+      } catch (error) {
+        console.error("Error fetching video data:", error);
+      }
+    };
+  
+    fetchVideoData();
   }, [id]);
   
-
   if(!videoDetail?.snippet) return <Loader />;
 
   const { snippet: { title, channelId, channelTitle }, statistics: { viewCount, likeCount } } = videoDetail;
@@ -31,8 +39,10 @@ const VideoDetail = () => {
     <Box minHeight="90vh" overflow={'hidden'}>
       <Stack direction={{ xs: "column", md: "row" }}>
         <Box flex={1} minWidth={'73svw'}>
-        <Box className={styles.reactPlayer}>
-            <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} className="react-player" controls />
+          <Box className={styles.reactPlayer}>
+            <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} className="react-player"
+            playing={true} controls={true} />
+            
             <Typography className={styles.titleText}>
               {title}
             </Typography>
@@ -52,9 +62,11 @@ const VideoDetail = () => {
                 </Typography>
               </Stack>
             </Stack>
+            <Comments/>
           </Box>
+
         </Box>
-        <Box px={2} py={{ md: 1, xs: 5 }} justifyContent="center" alignItems="center">
+        <Box px={2} py={{ md: 1, xs: 5 }} justifyContent="center" alignItems="center" overflow="scroll" height="135vh">
           <Videos videos={videos} direction="column" />
         </Box>
       </Stack>
