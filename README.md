@@ -1,7 +1,7 @@
 # YouTube Clone Project
 
-! [Project Screenshot](![image](https://github.com/Himanshukr033/YoutubeClone/assets/97483100/012e1784-078a-4cbd-8a45-62357be02c2f)
-)
+! [Project Screenshot](https://github.com/Himanshukr033/YoutubeClone/assets/97483100/012e1784-078a-4cbd-8a45-62357be02c2f)
+
 
 **Description**: This is a YouTube clone project that aims to replicate key features and functionalities of the YouTube platform. The project is built using React.js and utilizes various components to display videos, channels, and search results.
 
